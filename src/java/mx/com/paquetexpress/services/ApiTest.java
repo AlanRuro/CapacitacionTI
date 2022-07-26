@@ -21,6 +21,7 @@ import javax.ws.rs.core.MediaType;
 import mx.com.paquetexpress.comun.SmartGeneralException;
 import mx.com.paquetexpress.dto.ApiDTO;
 import mx.com.paquetexpress.dto.message.Message;
+import mx.com.paquetexpress.dto.message.body.Body;
 import mx.com.paquetexpress.dto.message.body.response.Response;
 import mx.com.paquetexpress.facade.TestFacadaBean;
 import mx.com.paquetexpress.facade.TestFacadeLocal;
@@ -45,40 +46,50 @@ public class ApiTest {
           mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
           mapper.setTimeZone(TimeZone.getDefault());
      }
-@GET
-     @Consumes(MediaType.APPLICATION_JSON)
-     @Path("/test")
-     public ApiDTO teste() throws Exception {
-     ApiDTO audit = new ApiDTO(); 
-          String result = "";
+
+     @GET
+     @Produces(MediaType.APPLICATION_JSON) 
+     @Path("/get")
+     public Message addressValidator() throws Exception {
+          //initMapper();  
+          Message data = new Message();
+          Body body = new Body();
+          data.setBody(body);  
+          Response resp = new Response();  
           double time = System.currentTimeMillis();
-          Response response = new Response();
           List<mx.com.paquetexpress.dto.message.body.response.message.Message> messagesList = new ArrayList<mx.com.paquetexpress.dto.message.body.response.message.Message>();
           mx.com.paquetexpress.dto.message.body.response.message.Message messages = new mx.com.paquetexpress.dto.message.body.response.message.Message();
           try {
-           } catch (Exception ex) {
-               result = "ERORR";
-               messages.setCode("500");
-               messages.setDescription(ex.getLocalizedMessage());
-               messages.setTypeError("Exception");
-               response.setSuccess(false);
-               ex.printStackTrace();
+
+               //InitPropertiesApiSalesForce.getReloadInstance();
+               System.out.println("Hello");
+               
+               
+               messages.setDescription("OK");
+               messagesList.add(messages);
+               resp.setSuccess(true);
+               resp.setData("OK");
+          } catch (Exception ex) {
+               ex.printStackTrace(); 
+               messages.setDescription("Ha ocurrido un error interno");
+               messagesList.add(messages);
+               resp.setMessages(messagesList);
+               resp.setSuccess(false);
           } finally {
-               if (response.getMessages() == null) { 
-                    messagesList.add(messages);
-                    response.setMessages(messagesList);
-               }
-               response.setTime("" + (System.currentTimeMillis() - time) + " miliseconds");
-               //data.getBody().setResponse(response);
-               //data.getBody().getRequest().setData(null);
-          } 
-          return audit;
+               resp.setTime((System.currentTimeMillis() - time) + " miliseconds");
+               data.setHeader(null);
+               data.setBody(new Body());
+               data.getBody().setRequest(null);
+               data.getBody().setResponse(resp);  
+          }
+          return data;
      }
+     
 
      @POST
      @Produces(MediaType.APPLICATION_JSON)
      @Consumes(MediaType.APPLICATION_JSON)
-     @Path("/ejb")
+     @Path("/post")
      public Message test(Message data) throws Exception {
           String result = "";
           double time = System.currentTimeMillis();
