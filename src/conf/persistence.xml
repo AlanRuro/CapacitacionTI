@@ -3,6 +3,7 @@
   <persistence-unit name="jtaGobernance" transaction-type="JTA">
     <jta-data-source>jdbc/test</jta-data-source>
     <class>mx.com.paquetexpress.model.entity.TestPosgresEO</class>
+    <class>mx.com.paquetexpress.model.entity.TestEjbEO</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties/>
   </persistence-unit>

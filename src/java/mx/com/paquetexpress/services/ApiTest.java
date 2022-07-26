@@ -8,7 +8,7 @@ package mx.com.paquetexpress.services;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.ArrayList; 
 import java.util.List;
 import java.util.TimeZone;
 import javax.ejb.EJB;
