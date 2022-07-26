@@ -1,0 +1,5 @@
+Nombre: EjbExampleRestful
+Descripcion: Ejemplo de persistencia y transaccion con Weblogic12c
+
+Fecha de creación: 18-sep-2021
+Usuario de creación: Ricardo Lopez Gastelum.
