@@ -25,10 +25,10 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "test_table" )
-@XmlRootElement
+@XmlRootElement 
 @Cacheable(false)
 @NamedQueries({
-    @NamedQuery(name = "TestEjbEO.findAll", query = "SELECT a FROM test_table a") 
+    @NamedQuery(name = "TestEjbEO.findAll", query = "SELECT a FROM TestEjbEO a") 
 })
 public class TestEjbEO implements Serializable {
 
