@@ -13,11 +13,20 @@ import mx.com.paquetexpress.dto.message.body.response.Response;
 /**
  *
  * @author ealvarez
- */
+ */ 
 @Local
 public interface TestFacadeLocal {
     
-    
-    public Response test(ApiDTO adto) throws Exception, SmartGeneralException;
      
+    public Response getAllData( ) throws Exception, SmartGeneralException; 
+    
+    public Response getDataById(String adto) throws Exception, SmartGeneralException;
+    
+    public Response setSomeData(String adto) throws Exception, SmartGeneralException;
+    
+    public Response deleteSomeData(String adto) throws Exception, SmartGeneralException;
+    
+    public Response updateSomeData(String param1, String param2) throws Exception, SmartGeneralException;
+     
+    public Response demoCrudEntity( ) throws Exception, SmartGeneralException;
 }

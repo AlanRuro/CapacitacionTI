@@ -18,7 +18,7 @@ import mx.com.paquetexpress.type.TypeDataSourceConstants;
 import mx.com.paquetexpress.type.TypeModule;
 import mx.com.paquetexpress.type.TypePropertiesConstants;
 import org.apache.commons.dbutils.handlers.BeanHandler;
-import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.BeanListHandler; 
 
 
 //@Stateless(name = "GenericQueryTESTDAO", mappedName = "PQEXPRESS.TEST.CATALOGS.GenericQueryDAO")
@@ -32,19 +32,7 @@ public class GenericQueryDAO implements GenericQueryDAOLocal {
         datasourceOracle = InitPropertiesConfig.getInstance().getProperty("datasourceOracle");
         log = (LoggerCustom) LoggerCustom. getLogger(GenericQueryDAO.class.getName());        
     }
-
-    /**
-     * **********************************
-     * Metodo para hacer querys genericos
-     * **********************************
-     * @param nameQuery : Objeto donde se definen la clave del query a ejecutar
-     * @param filters : Objeto donde vienen los parametros de la consulta
-     * @param dto : Objeto DTO a llenar y regresar en la lista
-     * @param propertiesFile : Archivo properties donde se busca la clave del query a consultar
-     * @param typeDataSource : DataSource donde se ejecutara la consulta
-     * @return : Lista de DTOs obtenidos a partir de la consulta
-     * @throws java.lang.Exception
-     */    
+ 
     @Override
     public ArrayList getAllItemsByFilters(String nameQuery, Object[] filters, Object dto, TypePropertiesConstants propertiesFile, TypeDataSourceConstants typeDataSource) throws Exception 
     {
@@ -70,47 +58,27 @@ public class GenericQueryDAO implements GenericQueryDAOLocal {
             throw ex;
         }
         return list;
-    } 
-    
-    /**
-     * **********************************
-     * Metodo para hacer querys genericos
-     * **********************************
-     * @param nameQuery : Objeto donde se definen la clave del query a ejecutar usando el metodo ? para lo parametros
-     * @param filters : Lista de parametros
-     * @param dto : Objeto DTO a llenar y regresar en la lista
-     * @param propertiesFile : Archivo properties donde se busca la clave del query a consultar
-     * @return : Lista de DTOs obtenidos a partir de la consulta
-     * @throws java.lang.Exception
-     */ 
+    }  
+     
+ 
     @Override    
     public ArrayList getAllItemsByFilters(String nameQuery, Object[] filters, Object dto, TypePropertiesConstants propertiesFile) throws Exception {
-        ArrayList list = null;
+        ArrayList list = null; 
         Properties propertiesQuerys = null; 
         try {
             OracleConnection oracleConnection = new OracleConnection();
-            propertiesQuerys = getProperties(propertiesFile);
-            nameQuery = propertiesQuerys.getProperty(nameQuery);
+            propertiesQuerys = getProperties(propertiesFile); 
+            nameQuery = propertiesQuerys.getProperty(nameQuery); 
             list = oracleConnection.runOracleQueryBeanList(nameQuery, filters, new BeanListHandler(dto.getClass()), datasourceOracle);
         } catch (Exception ex) {
             ex.printStackTrace();
             log.error("Error en GenericQueryDAO", ex, TypeModule.MODULE.getType(), nameQuery);            
             throw ex;
-        }
-        return list;
+        } 
+        return list; 
     }
     
-     /**
-     * **********************************
-     * Metodo para hacer querys genericos
-     * **********************************
-     * @param nameQuery : Objeto donde se definen la clave del query a ejecutar usando el metodo ? para lo parametros
-     * @param filters : Lista de parametros
-     * @param dto : Objeto DTO a llenar y regresar en la lista
-     * @param propertiesFile : Archivo properties donde se busca la clave del query a consultar
-     * @return : Lista de DTOs obtenidos a partir de la consulta
-     * @throws java.lang.Exception
-     */ 
+ 
     @Override    
     public ArrayList getAllItemsByFiltersOL(String nameQuery, Object[] filters, Object dto, TypePropertiesConstants propertiesFile) throws Exception {
         ArrayList list = null;
@@ -128,24 +96,7 @@ public class GenericQueryDAO implements GenericQueryDAOLocal {
         return list;
     }
     
-//    public ArrayList getAllItemsByFiltersMsSql(String nameQuery, WhereCondition where, Object dto, TypePropertiesConstants propertiesFile, TypeDataSourceConstants typeDataSource) throws Exception {
-//        ArrayList list = null;
-//        Properties propertiesApplication = null;
-//        Properties propertiesQuerys = null;
-//        Parser parser = new Parser();
-//        try {
-//            propertiesApplication = InitPropertiesApplication.getInstance();
-//            propertiesQuerys = getProperties(propertiesFile);
-//            nameQuery = propertiesQuerys.getProperty(nameQuery);
-//            nameQuery = nameQuery + parser.queryParser(new SelectEntity(), where);
-//            list = new SQLServerConnection().runSQLServerQueryBeanList(nameQuery, new BeanListHandler(dto.getClass()), propertiesApplication.getProperty("datasourceSQLUTRAX"));
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//            log.error("Error en GenericQueryDAO", ex, TypeModule.GENERIC.getType(), nameQuery);
-//            throw ex;
-//        }
-//        return list;
-//    }
+ 
     @Override
     public Object getOnlyOneItemByFilters(String nameQuery, Object[] filters, Object dto, TypePropertiesConstants propertiesFile) throws Exception {
         Properties propertiesQuerys = null;

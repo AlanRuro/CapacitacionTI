@@ -5,7 +5,9 @@
  */
 package mx.com.paquetexpress.dao;
 
+import java.util.List;
 import mx.com.paquetexpress.dto.ApiDTO;
+import mx.com.paquetexpress.dto.TestProgresDTO;
 
 /**
  *
@@ -14,9 +16,11 @@ import mx.com.paquetexpress.dto.ApiDTO;
 public interface TestDAOLocal {
     
  
-    public void testQuery()  ;
-
-    public void testQuery(String adto);
+   
+    public List<TestProgresDTO> getPostgresRows();
+     
+    public List<TestProgresDTO> getPostgresRowsById(String param);
+ 
     
     
 }

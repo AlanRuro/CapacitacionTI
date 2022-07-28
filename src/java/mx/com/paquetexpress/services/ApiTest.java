@@ -7,12 +7,14 @@ package mx.com.paquetexpress.services;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import static java.awt.event.PaintEvent.UPDATE;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TimeZone;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -49,37 +51,38 @@ public class ApiTest {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/get")
-    public Message addressValidator() throws Exception {
-        //initMapper();  
+    @Path("/get/table")
+    public Message getAll() throws Exception {
         Message data = new Message();
         Body body = new Body();
         data.setBody(body);
-        Response resp = new Response();
         double time = System.currentTimeMillis();
         List<mx.com.paquetexpress.dto.message.body.response.message.Message> messagesList = new ArrayList<mx.com.paquetexpress.dto.message.body.response.message.Message>();
         mx.com.paquetexpress.dto.message.body.response.message.Message messages = new mx.com.paquetexpress.dto.message.body.response.message.Message();
+
+        Response response = new Response();
         try {
 
-            //InitPropertiesApiSalesForce.getReloadInstance();
-            System.out.println("Hello");
+            response.setData(facade.getAllData());
 
-            messages.setDescription("OK");
-            messagesList.add(messages);
-            resp.setSuccess(true);
-            resp.setData("OK");
+        } catch (SmartGeneralException sge) {
+            messages.setCode("400");
+            messages.setDescription(sge.getMessage());
+            messages.setTypeError("SmartGeneralException");
+            response.setSuccess(false);
         } catch (Exception ex) {
+            messages.setCode("500");
+            messages.setDescription(ex.getLocalizedMessage());
+            messages.setTypeError("Exception");
+            response.setSuccess(false);
             ex.printStackTrace();
-            messages.setDescription("Ha ocurrido un error interno");
-            messagesList.add(messages);
-            resp.setMessages(messagesList);
-            resp.setSuccess(false);
         } finally {
-            resp.setTime((System.currentTimeMillis() - time) + " miliseconds");
-            data.setHeader(null);
-            data.setBody(new Body());
-            data.getBody().setRequest(null);
-            data.getBody().setResponse(resp);
+            if (response.getMessages() == null) {
+                messagesList.add(messages);
+                response.setMessages(messagesList);
+            }
+            response.setTime("" + (System.currentTimeMillis() - time) + " miliseconds");
+            data.getBody().setResponse(response);
         }
         return data;
     }
@@ -87,18 +90,18 @@ public class ApiTest {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/post")
-    public Message test(Message data) throws Exception {
+    @Path("/get/id")
+    public Message getDataById(Message data) throws Exception {
         String result = "";
         double time = System.currentTimeMillis();
         Response response = new Response();
         List<mx.com.paquetexpress.dto.message.body.response.message.Message> messagesList = new ArrayList<mx.com.paquetexpress.dto.message.body.response.message.Message>();
         mx.com.paquetexpress.dto.message.body.response.message.Message messages = new mx.com.paquetexpress.dto.message.body.response.message.Message();
-        try {
+        try { 
 
             if (data.getBody().getRequest().getData() != null) {
                 ApiDTO audit = mapper.convertValue(data.getBody().getRequest().getData(), ApiDTO.class);
-                response = facade.test(audit);
+                response = facade.getDataById(audit.getParamA());
                 result = "OUT";
             } else {
                 throw new SmartGeneralException("Debe indicarse objeto de auditoria");
@@ -131,8 +134,8 @@ public class ApiTest {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/post2")
-    public ApiDTO test2(ApiDTO data) throws Exception {
+    @Path("/create")
+    public Message createData(Message data) throws Exception {
         String result = "";
         double time = System.currentTimeMillis();
         Response response = new Response();
@@ -140,11 +143,10 @@ public class ApiTest {
         mx.com.paquetexpress.dto.message.body.response.message.Message messages = new mx.com.paquetexpress.dto.message.body.response.message.Message();
         try {
 
-            if (data != null) {
-                //ApiDTO audit = mapper.convertValue(data, ApiDTO.class);
-                //response = facade.test(audit);
-                //result = "OUT";
-                System.out.println(data.toString());
+            if (data.getBody().getRequest().getData() != null) {
+                ApiDTO audit = mapper.convertValue(data.getBody().getRequest().getData(), ApiDTO.class);
+                response = facade.setSomeData(audit.getParamA());
+                result = "OUT";
             } else {
                 throw new SmartGeneralException("Debe indicarse objeto de auditoria");
             }
@@ -154,7 +156,6 @@ public class ApiTest {
             messages.setDescription(sge.getMessage());
             messages.setTypeError("SmartGeneralException");
             response.setSuccess(false);
-            sge.printStackTrace();
         } catch (Exception ex) {
             result = "ERORR";
             messages.setCode("500");
@@ -163,11 +164,145 @@ public class ApiTest {
             response.setSuccess(false);
             ex.printStackTrace();
         } finally {
-            System.out.println("Entré a finally");
-            if (data == null) {
-                data = new ApiDTO();
-                data.setParamA("Venía yo vacío");
+            if (response.getMessages() == null) {
+                messagesList.add(messages);
+                response.setMessages(messagesList);
             }
+            response.setTime("" + (System.currentTimeMillis() - time) + " miliseconds");
+            data.getBody().setResponse(response);
+            data.getBody().getRequest().setData(null);
+        }
+        return data;
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/update")
+    public Message updateData(Message data) throws Exception {
+        String result = "";
+        double time = System.currentTimeMillis();
+        Response response = new Response();
+        List<mx.com.paquetexpress.dto.message.body.response.message.Message> messagesList = new ArrayList<mx.com.paquetexpress.dto.message.body.response.message.Message>();
+        mx.com.paquetexpress.dto.message.body.response.message.Message messages = new mx.com.paquetexpress.dto.message.body.response.message.Message();
+        try {
+
+            if (data.getBody().getRequest().getData() != null) {
+                ApiDTO audit = mapper.convertValue(data.getBody().getRequest().getData(), ApiDTO.class);
+                response = facade.updateSomeData(audit.getParamA(), "MARKED");
+                result = "OUT";
+            } else {
+                throw new SmartGeneralException("Debe indicarse objeto de auditoria");
+            }
+        } catch (SmartGeneralException sge) {
+            result = "ERORR";
+            messages.setCode("400");
+            messages.setDescription(sge.getMessage());
+            messages.setTypeError("SmartGeneralException");
+            response.setSuccess(false);
+        } catch (Exception ex) {
+            result = "ERORR";
+            messages.setCode("500");
+            messages.setDescription(ex.getLocalizedMessage());
+            messages.setTypeError("Exception");
+            response.setSuccess(false);
+            ex.printStackTrace();
+        } finally {
+            if (response.getMessages() == null) {
+                messagesList.add(messages);
+                response.setMessages(messagesList);
+            }
+            response.setTime("" + (System.currentTimeMillis() - time) + " miliseconds");
+            data.getBody().setResponse(response);
+            data.getBody().getRequest().setData(null);
+        }
+        return data;
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/remove")
+    public Message deleteData(Message data) throws Exception {
+        String result = "";
+        double time = System.currentTimeMillis();
+        Response response = new Response();
+        List<mx.com.paquetexpress.dto.message.body.response.message.Message> messagesList = new ArrayList<mx.com.paquetexpress.dto.message.body.response.message.Message>();
+        mx.com.paquetexpress.dto.message.body.response.message.Message messages = new mx.com.paquetexpress.dto.message.body.response.message.Message();
+        try {
+
+            if (data.getBody().getRequest().getData() != null) {
+                ApiDTO audit = mapper.convertValue(data.getBody().getRequest().getData(), ApiDTO.class);
+                response = facade.deleteSomeData(audit.getParamA());
+                result = "OUT";
+            } else {
+                throw new SmartGeneralException("Debe indicarse objeto de auditoria");
+            }
+        } catch (SmartGeneralException sge) {
+            result = "ERORR";
+            messages.setCode("400");
+            messages.setDescription(sge.getMessage());
+            messages.setTypeError("SmartGeneralException");
+            response.setSuccess(false);
+        } catch (Exception ex) {
+            result = "ERORR";
+            messages.setCode("500");
+            messages.setDescription(ex.getLocalizedMessage());
+            messages.setTypeError("Exception");
+            response.setSuccess(false);
+            ex.printStackTrace();
+        } finally {
+            if (response.getMessages() == null) {
+                messagesList.add(messages);
+                response.setMessages(messagesList);
+            }
+            response.setTime("" + (System.currentTimeMillis() - time) + " miliseconds");
+            data.getBody().setResponse(response);
+            data.getBody().getRequest().setData(null);
+        }
+        return data;
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/demo")
+    public Message entityDemo(Message data) throws Exception {
+        String result = "";
+        double time = System.currentTimeMillis();
+        Response response = new Response();
+        List<mx.com.paquetexpress.dto.message.body.response.message.Message> messagesList = new ArrayList<mx.com.paquetexpress.dto.message.body.response.message.Message>();
+        mx.com.paquetexpress.dto.message.body.response.message.Message messages = new mx.com.paquetexpress.dto.message.body.response.message.Message();
+        try {
+
+            if (data.getBody().getRequest().getData() != null) {
+                ApiDTO audit = mapper.convertValue(data.getBody().getRequest().getData(), ApiDTO.class);
+                facade.demoCrudEntity();
+                result = "OUT";
+            } else {
+                throw new SmartGeneralException("Debe indicarse objeto de auditoria");
+            }
+        } catch (SmartGeneralException sge) {
+            result = "ERORR";
+            messages.setCode("400");
+            messages.setDescription(sge.getMessage());
+            messages.setTypeError("SmartGeneralException");
+            response.setSuccess(false);
+        } catch (Exception ex) {
+            result = "ERORR";
+            messages.setCode("500");
+            messages.setDescription(ex.getLocalizedMessage());
+            messages.setTypeError("Exception");
+            response.setSuccess(false);
+            ex.printStackTrace();
+        } finally {
+            if (response.getMessages() == null) {
+                messagesList.add(messages);
+                response.setMessages(messagesList);
+            }
+            response.setTime("" + (System.currentTimeMillis() - time) + " miliseconds");
+            data.getBody().setResponse(response);
+            data.getBody().getRequest().setData(null);
         }
         return data;
     }

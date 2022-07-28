@@ -15,10 +15,24 @@ import java.util.List;
  */
 public class TestProgresDTO implements Serializable {
 
-     private String test_column;
+    private Integer id;
+    private String test_column;
 
-     public TestProgresDTO() {
-     }
+    public TestProgresDTO() {
+    }
+
+    public TestProgresDTO(Integer id, String test_column) {
+        this.id = id;
+        this.test_column = test_column;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getTest_column() {
         return test_column;
@@ -30,9 +44,7 @@ public class TestProgresDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "TestProgresDTO{" + "test_column=" + test_column + '}';
+        return "TestProgresDTO{" + "id=" + id + ", test_column=" + test_column + '}';
     }
-
-     
 
 }

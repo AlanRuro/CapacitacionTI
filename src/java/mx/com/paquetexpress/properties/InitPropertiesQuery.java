@@ -76,8 +76,7 @@ public class InitPropertiesQuery {
             String ruta = "";
             if (properties == null) {
                 //System.out.println("Entra a configApplication.properties");
-                ruta = System.getProperty("user.dir") + File.separator + "paquetexpressConfig" + File.separator + "querysSipWeb" + File.separator + "querys_test.properties";
-                System.out.println(ruta);
+                ruta = System.getProperty("user.dir") + File.separator + "paquetexpressConfig" + File.separator + "querysSipWeb" + File.separator + "querys_test.properties"; 
                 is = new FileInputStream(ruta);
                 properties = new Properties();
                 properties.load(is);

@@ -33,13 +33,30 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class TestEjbEO implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+   
     @Id
-    @Column(name = "test_column")
+    @Column(name = "id")  
+    private int id;  
+    
+    
+    @Column(name = "test_column")  
     private String test_column;  
     
      
     public TestEjbEO() {
+    }
+
+    public TestEjbEO(int id, String test_column) {
+        this.id = id;
+        this.test_column = test_column;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTest_column() {
@@ -50,11 +67,22 @@ public class TestEjbEO implements Serializable {
         this.test_column = test_column;
     }
 
+    @Override
+    public String toString() {
+        return "TestEjbEO{" + "id=" + id + ", test_column=" + test_column + '}';
+    }
 
-     @Override
-     public String toString() {
-          return "TestEjbEO{" + "Test_column=" + test_column + '}';
-     }
+    
+   
+
+     
+     
+
+  
+
+   
+
+ 
  
 
 }

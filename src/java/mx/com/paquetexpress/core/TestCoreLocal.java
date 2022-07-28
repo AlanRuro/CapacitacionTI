@@ -5,9 +5,11 @@
  */
 package mx.com.paquetexpress.core;
 
+import java.util.List;
 import javax.ejb.Local;
 import mx.com.paquetexpress.comun.SmartGeneralException;
 import mx.com.paquetexpress.dto.ApiDTO;
+import mx.com.paquetexpress.dto.TestProgresDTO;
 
 /**
  *
@@ -17,7 +19,13 @@ import mx.com.paquetexpress.dto.ApiDTO;
 public interface TestCoreLocal {
     
     
-    public ApiDTO test(ApiDTO adto) throws Exception, SmartGeneralException;
+    public void entityCRUD() throws Exception, SmartGeneralException;
+    
+    public List<TestProgresDTO> getPostgresRowsById(String param) throws Exception, SmartGeneralException; 
+    public List<TestProgresDTO> getPostgresRows() throws Exception, SmartGeneralException; 
+    public Boolean createNewPostgresRow(String data) throws Exception, SmartGeneralException; 
+    public Boolean  deletePostgresRowsById (String id) throws Exception, SmartGeneralException; 
+    public Boolean updatePostgresRowsById (String oldValue, String newValue) throws Exception, SmartGeneralException; 
     
     
 }
