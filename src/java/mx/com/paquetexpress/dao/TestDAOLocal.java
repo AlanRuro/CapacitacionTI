@@ -5,6 +5,8 @@
  */
 package mx.com.paquetexpress.dao;
 
+import mx.com.paquetexpress.dto.ApiDTO;
+
 /**
  *
  * @author gmadero
@@ -13,4 +15,8 @@ public interface TestDAOLocal {
     
  
     public void testQuery()  ;
+
+    public void testQuery(String adto);
+    
+    
 }

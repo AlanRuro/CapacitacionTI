@@ -24,47 +24,36 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author ealvarez
  */
 @Entity
-@Table(name = "TEST_EJB" )
+@Table(name = "test_table" )
 @XmlRootElement
 @Cacheable(false)
 @NamedQueries({
-    @NamedQuery(name = "TestEjbEO.findAll", query = "SELECT a FROM TestEjbEO a") 
+    @NamedQuery(name = "TestEjbEO.findAll", query = "SELECT a FROM test_table a") 
 })
 public class TestEjbEO implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    @Column(name = "COMMENTS")
-    private String comments;  
-
     @Id
-    @Column(name = "CRTD_ON")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date crtdOn;
+    @Column(name = "test_column")
+    private String test_column;  
     
      
     public TestEjbEO() {
     }
 
-     public Date getCrtdOn() {
-          return crtdOn;
-     }
+    public String getTest_column() {
+        return test_column;
+    }
 
-     public void setCrtdOn(Date crtdOn) {
-          this.crtdOn = crtdOn;
-     }  
+    public void setTest_column(String test_column) {
+        this.test_column = test_column;
+    }
 
-     public String getComments() {
-          return comments;
-     }
-
-     public void setComments(String comments) { 
-          this.comments = comments; 
-     }
 
      @Override
      public String toString() {
-          return "TestEjbEO{" + "crtdOn=" + crtdOn + ", comments=" + comments + '}';
+          return "TestEjbEO{" + "Test_column=" + test_column + '}';
      }
  
 

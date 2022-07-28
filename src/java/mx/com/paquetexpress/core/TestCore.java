@@ -61,12 +61,11 @@ public class TestCore implements TestCoreLocal {
           try {
 
                System.out.println("--------QUERY-------------");
-               dao.testQuery();
+               dao.testQuery(adto.getParamA());
 
                System.out.println("--------PERSIST-------------");
                TestEjbEO testEntity = new TestEjbEO();
-               testEntity.setCrtdOn(new Date());
-               testEntity.setComments("paquete");
+               testEntity.setTest_column("paquete" + new Date().toString());
                em.persist(testEntity);
                em.flush();
                dao.testQuery();
@@ -74,7 +73,7 @@ public class TestCore implements TestCoreLocal {
                System.out.println("-------UPDATE--------------");
                List<TestEjbEO> testList = em.createNamedQuery("TestEjbEO.findAll").getResultList();
                for (TestEjbEO item : testList) {
-                    item.setComments("paquetexpress");
+                    item.setTest_column("paquete" + new Date().toString());
                     em.merge(item);
                }
                em.flush();

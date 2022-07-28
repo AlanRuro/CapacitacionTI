@@ -86,7 +86,7 @@ public class GenericQueryDAO implements GenericQueryDAOLocal {
     @Override    
     public ArrayList getAllItemsByFilters(String nameQuery, Object[] filters, Object dto, TypePropertiesConstants propertiesFile) throws Exception {
         ArrayList list = null;
-        Properties propertiesQuerys = null;
+        Properties propertiesQuerys = null; 
         try {
             OracleConnection oracleConnection = new OracleConnection();
             propertiesQuerys = getProperties(propertiesFile);

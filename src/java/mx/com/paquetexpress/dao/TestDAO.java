@@ -46,5 +46,19 @@ public class TestDAO implements TestDAOLocal {
                ex.printStackTrace();
           }
      }
+     
+     
+     public void testQuery(String param) {
+          List<TestDTO> rows = null;
+          try {
+               rows = genericQueryDAOLocal.getAllItemsByFilters("query_pg", new Object[]{param}, new TestDTO(), TypePropertiesConstants.TEST);
+               for (TestDTO row : rows) {
+                    System.out.println(row.getComments());
+               }
+               System.out.println(rows.size());
+          } catch (Exception ex) {
+               ex.printStackTrace();
+          }
+     }
 
 }
