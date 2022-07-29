@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author ealvarez
  */
-@Entity
+@Entity(name = "TestEjbEO" )
 @Table(name = "test_table" )
 @XmlRootElement 
 @Cacheable(false)
