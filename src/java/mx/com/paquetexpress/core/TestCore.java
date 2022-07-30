@@ -107,7 +107,7 @@ public class TestCore implements TestCoreLocal {
             for (TestEjbEO item : testList) {  
                 System.out.println(item);
                 if (item.getTest_column().equals(oldValue)) {
-                    item.setTest_column("MARKED TO DELETE");
+                    item.setTest_column(newValue);
                     em.merge(item);
                     break;
                 }

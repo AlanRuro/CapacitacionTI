@@ -43,7 +43,7 @@ public class TestDAO implements TestDAOLocal {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return rows;
+        return rows; 
     }
 
     @Override

@@ -189,7 +189,7 @@ public class ApiTest {
 
             if (data.getBody().getRequest().getData() != null) {
                 ApiDTO audit = mapper.convertValue(data.getBody().getRequest().getData(), ApiDTO.class);
-                response = facade.updateSomeData(audit.getParamA(), "MARKED");
+                response = facade.updateSomeData(audit.getParamA(), "MARKED TO DELETE");
                 result = "OUT";
             } else {
                 throw new SmartGeneralException("Debe indicarse objeto de auditoria");
